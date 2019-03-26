@@ -1,13 +1,21 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 
-import Example from '../../src'
+import SedaSearch from '../../src'
 
 class Demo extends Component {
   render() {
     return <div>
-      <h1>react-seda-search Demo</h1>
-      <Example/>
+      <h1>react-seda-search demo</h1>
+      <SedaSearch
+        algoliaId=''
+        algoliaKey=''
+        onSuggestionSelected={console.log}
+        indices={['seda_all']}
+        inputProps={{
+          placeholder: 'Search seda data...'
+        }}
+      />
     </div>
   }
 }
