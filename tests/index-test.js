@@ -15,9 +15,9 @@ describe('Component', () => {
     unmountComponentAtNode(node)
   })
 
-  it('displays a welcome message', () => {
-    render(<Component/>, node, () => {
-      expect(node.innerHTML).toContain('Welcome to React components')
+  it('shows message on no indices', () => {
+    render(<Component algoliaId='1234' algoliaKey='123456' />, node, () => {
+      expect(node.innerHTML).toContain('No indices for search')
     })
   })
 })
