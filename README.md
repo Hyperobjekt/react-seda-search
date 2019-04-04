@@ -25,11 +25,11 @@ Pass the Algolia configuration to the component, along with the indicies to sear
 
 The following props can be passed to the search component:
 
-  - **algoliaId** `string` *required* URL to the endpoint with CSV data
-  - **algoliaKey**: `string` variable name to use for x axis
-  - **indicies**: `string` variable name to use for y axis
-  - **inputProps**: `string` variable name to use for z axis (circle size)
-  - **onSuggestionSelected**: `func` prefix for fetching files (corresponds to region)
+  - **algoliaId** `string` *required* ID for the algolia project
+  - **algoliaKey**: `string` API key for Algolia
+  - **indicies**: `array` list of indicies to search (cities, counties, districts, and/or schools)
+  - **inputProps**: `object` properties to be passed to the input field
+  - **onSuggestionSelected**: `func` function to handle selected search suggestion
 
 
 [build-badge]: https://img.shields.io/travis/Hyperobjekt/react-seda-search/master.png?style=flat-square
