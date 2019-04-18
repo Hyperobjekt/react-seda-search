@@ -151,7 +151,21 @@ const SedaSearch = ({
   const searchClient = useMemo(() => {
     let client = false;
     try {
-      client = algoliasearch(algoliaId, algoliaKey);
+      const algoliaClient = algoliasearch(algoliaId, algoliaKey, {
+        _useRequestCache: true,
+      });
+      client = {
+        search(requests) {
+          const shouldSearch = requests.some(({ params: { query }}) => query !== '');
+          if (shouldSearch) {
+            return algoliaClient.search(requests);
+          }
+          return Promise.resolve({
+            results: [{ hits: [] }],
+          });
+        },
+        searchForFacetValues: algoliaClient.searchForFacetValues,
+      };
     } catch (e) {
       console.error(e.message)
     } finally {
