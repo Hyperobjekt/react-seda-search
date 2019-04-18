@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Highlight, connectAutoComplete, InstantSearch, Index, Configure } from 'react-instantsearch-dom';
 import AutoSuggest from 'react-autosuggest';
@@ -138,6 +138,7 @@ class AutoComplete extends Component {
   }
 }
 
+
 const SedaAutoComplete = connectAutoComplete(AutoComplete);
 
 const SedaSearch = ({
@@ -147,7 +148,17 @@ const SedaSearch = ({
   inputProps,
   onSuggestionSelected
 }) => {
-  const searchClient = algoliasearch(algoliaId, algoliaKey);
+  const searchClient = useMemo(() => {
+    let client = false;
+    try {
+      client = algoliasearch(algoliaId, algoliaKey);
+    } catch (e) {
+      console.error(e.message)
+    } finally {
+      return client;
+    }
+  }, [algoliaId, algoliaKey])
+  if (!searchClient) { return <span>Unable to create search client.</span> }
   return (
     indices.length ? 
       <InstantSearch indexName={indices[0]} searchClient={searchClient}>
