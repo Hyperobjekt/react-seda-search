@@ -8,8 +8,8 @@ class Demo extends Component {
     return <div>
       <h1>react-seda-search demo</h1>
       <SedaSearch
-        algoliaId=''
-        algoliaKey=''
+        algoliaId='QPJ12WSVR4'
+        algoliaKey='bae9e4604dbd263cc47c48bfb30dd5dc'
         onSuggestionSelected={console.log}
         indices={['cities', 'counties', 'districts', 'schools']}
         inputProps={{
