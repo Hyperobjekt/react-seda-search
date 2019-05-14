@@ -11,6 +11,7 @@ class AutoComplete extends Component {
     currentRefinement: PropTypes.string.isRequired,
     refine: PropTypes.func.isRequired,
     onSuggestionSelected: PropTypes.func.isRequired,
+    onSelectedClear: PropTypes.func.isRequired,
   };
 
   state = {
@@ -30,6 +31,13 @@ class AutoComplete extends Component {
   onSuggestionsClearRequested = () => {
     this.props.refine();
   };
+
+  handleSelectedClear = () => {
+    this.setState({
+      value: '',
+    });
+    this.props.onSelectedClear();
+  }
 
   getSuggestionValue(hit) {
     return hit.name;
@@ -66,18 +74,21 @@ class AutoComplete extends Component {
     };
 
     return (
-      <AutoSuggest
-        suggestions={hits}
-        multiSection={multiSection}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-        renderSectionTitle={this.renderSectionTitle}
-        getSectionSuggestions={this.getSectionSuggestions}
-      />
+      <div className="react-autosuggest-container">
+        <AutoSuggest
+          suggestions={hits}
+          multiSection={multiSection}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={onSuggestionSelected}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+          renderSectionTitle={this.renderSectionTitle}
+          getSectionSuggestions={this.getSectionSuggestions}
+        />
+        <button className="clear" onClick={this.handleSelectedClear}>&times;</button>
+      </div>
     );
   }
 }
@@ -90,7 +101,8 @@ const SedaSearch = ({
   algoliaKey, 
   indices = [], 
   inputProps,
-  onSuggestionSelected
+  onSuggestionSelected,
+  onSelectedClear
 }) => {
   const searchClient = useMemo(() => {
     let client = false;
@@ -127,6 +139,9 @@ const SedaSearch = ({
           onSuggestionSelected={
             (e, { suggestion }) => onSuggestionSelected(suggestion)
           }
+          onSelectedClear={
+            () => onSelectedClear('Clearing input.')
+          }
         />
         {
           indices.map((index,i) =>
@@ -134,6 +149,7 @@ const SedaSearch = ({
           )
         }
       </InstantSearch>
+
       :
       <span>No indices for search</span>
   )

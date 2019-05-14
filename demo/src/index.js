@@ -11,6 +11,7 @@ class Demo extends Component {
         algoliaId='QPJ12WSVR4'
         algoliaKey='bae9e4604dbd263cc47c48bfb30dd5dc'
         onSuggestionSelected={console.log}
+        onSelectedClear={ console.log }
         indices={['cities', 'counties', 'districts', 'schools']}
         inputProps={{
           placeholder: 'Search seda data...'
