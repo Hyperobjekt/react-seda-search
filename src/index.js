@@ -4,6 +4,13 @@ import { Highlight, connectAutoComplete, InstantSearch, Index, Configure } from 
 import AutoSuggest from 'react-autosuggest';
 import algoliasearch from 'algoliasearch/lite';
 
+/** Renders the input component for search */
+const renderInputComponent = (inputProps, onClear) => (
+  <div className="react-autosuggest__input-wrapper">
+    <input {...inputProps} />
+    <button aria-label="clear search text" className="react-autosuggest__clear" onClick={onClear}>&times;</button>
+  </div>
+);
 
 class AutoComplete extends Component {
   static propTypes = {
@@ -11,6 +18,7 @@ class AutoComplete extends Component {
     currentRefinement: PropTypes.string.isRequired,
     refine: PropTypes.func.isRequired,
     onSuggestionSelected: PropTypes.func.isRequired,
+    onSelectedClear: PropTypes.func.isRequired,
   };
 
   state = {
@@ -30,6 +38,13 @@ class AutoComplete extends Component {
   onSuggestionsClearRequested = () => {
     this.props.refine();
   };
+
+  handleSelectedClear = () => {
+    this.setState({
+      value: '',
+    });
+    this.props.onSelectedClear();
+  }
 
   getSuggestionValue(hit) {
     return hit.name;
@@ -75,6 +90,7 @@ class AutoComplete extends Component {
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderSuggestion}
         inputProps={inputProps}
+        renderInputComponent={(inputProps) => renderInputComponent(inputProps, this.handleSelectedClear)}
         renderSectionTitle={this.renderSectionTitle}
         getSectionSuggestions={this.getSectionSuggestions}
       />
@@ -90,7 +106,8 @@ const SedaSearch = ({
   algoliaKey, 
   indices = [], 
   inputProps,
-  onSuggestionSelected
+  onSuggestionSelected,
+  onSelectedClear
 }) => {
   const searchClient = useMemo(() => {
     let client = false;
@@ -127,6 +144,9 @@ const SedaSearch = ({
           onSuggestionSelected={
             (e, { suggestion }) => onSuggestionSelected(suggestion)
           }
+          onSelectedClear={
+            () => onSelectedClear('Clearing input.')
+          }
         />
         {
           indices.map((index,i) =>
@@ -134,6 +154,7 @@ const SedaSearch = ({
           )
         }
       </InstantSearch>
+
       :
       <span>No indices for search</span>
   )
