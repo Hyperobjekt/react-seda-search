@@ -4,6 +4,13 @@ import { Highlight, connectAutoComplete, InstantSearch, Index, Configure } from 
 import AutoSuggest from 'react-autosuggest';
 import algoliasearch from 'algoliasearch/lite';
 
+/** Renders the input component for search */
+const renderInputComponent = (inputProps, onClear) => (
+  <div className="react-autosuggest__input-wrapper">
+    <input {...inputProps} />
+    <button aria-label="clear search text" className="react-autosuggest__clear" onClick={onClear}>&times;</button>
+  </div>
+);
 
 class AutoComplete extends Component {
   static propTypes = {
@@ -74,21 +81,19 @@ class AutoComplete extends Component {
     };
 
     return (
-      <div className="react-autosuggest-container">
-        <AutoSuggest
-          suggestions={hits}
-          multiSection={multiSection}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          onSuggestionSelected={onSuggestionSelected}
-          getSuggestionValue={this.getSuggestionValue}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={inputProps}
-          renderSectionTitle={this.renderSectionTitle}
-          getSectionSuggestions={this.getSectionSuggestions}
-        />
-        <button className="clear" onClick={this.handleSelectedClear}>&times;</button>
-      </div>
+      <AutoSuggest
+        suggestions={hits}
+        multiSection={multiSection}
+        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        onSuggestionSelected={onSuggestionSelected}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
+        inputProps={inputProps}
+        renderInputComponent={(inputProps) => renderInputComponent(inputProps, this.handleSelectedClear)}
+        renderSectionTitle={this.renderSectionTitle}
+        getSectionSuggestions={this.getSectionSuggestions}
+      />
     );
   }
 }
