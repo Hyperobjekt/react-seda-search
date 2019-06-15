@@ -39,6 +39,14 @@ class AutoComplete extends Component {
     this.props.refine();
   };
 
+  handleSelected = (...args) => {
+    this.setState({
+      value: '',
+    });
+    this.props.onSuggestionSelected.apply(this, args)
+    
+  }
+
   handleSelectedClear = () => {
     this.setState({
       value: '',
@@ -71,7 +79,7 @@ class AutoComplete extends Component {
   }
 
   render() {
-    const { hits, multiSection, onSuggestionSelected } = this.props;
+    const { hits, multiSection } = this.props;
     const { value } = this.state;
 
     const inputProps = {
@@ -86,7 +94,7 @@ class AutoComplete extends Component {
         multiSection={multiSection}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
+        onSuggestionSelected={this.handleSelected}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderSuggestion}
         inputProps={inputProps}
@@ -142,7 +150,9 @@ const SedaSearch = ({
           inputProps={inputProps}
           multiSection={indices.length > 1}
           onSuggestionSelected={
-            (e, { suggestion }) => onSuggestionSelected(suggestion)
+            (e, { suggestion }) => { 
+              onSuggestionSelected(suggestion); 
+            }
           }
           onSelectedClear={
             () => onSelectedClear('Clearing input.')
