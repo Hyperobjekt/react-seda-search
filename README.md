@@ -16,7 +16,7 @@ Pass the Algolia configuration to the component, along with the indicies to sear
   onSuggestionSelected={console.log}
   indices={['cities', 'counties', 'districts', 'schools']}
   inputProps={{
-    placeholder: 'Search seda data...'
+    placeholder: 'Search seda data..'
   }}
 />
 ```
