@@ -35,7 +35,7 @@
     "nwb": "0.23.x",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "semantic-release": "^15.13.24"
+    "semantic-release": "^17.2.3"
   },
   "author": "",
   "homepage": "",
